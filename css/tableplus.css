@@ -1,0 +1,42 @@
+/* scrollbar */
+.table_scollbar_container {
+  position: absolute;
+  overflow: hidden;
+  /*border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;*/
+}
+.table_scrollbar_slider {
+  position: relative;
+  background-color: #222;
+  opacity: 0.5;
+  width: 6px;
+  border-radius: 3px;
+  margin-left: 1px;
+}
+
+/* sticky header */
+table thead tr.table-sticky-header-row {
+  position: fixed;
+}
+table thead tr.table-sticky-header-row-first th {
+  border-top: 0;
+}
+table thead tr.table-sticky-header-row-first > th:first-child{
+  border-top-left-radius: 4px;
+}
+table thead tr.table-sticky-header-row-first > th:last-child{
+  border-top-right-radius: 4px;
+}
+table thead tr.table-sticky-header-row-is-sticky > th:first-child {
+  border-top-left-radius: 0;
+}
+table thead tr.table-sticky-header-row-is-sticky > th:last-child {
+  border-top-right-radius: 0;
+}
+table thead tr.table-sticky-header-row:last-child > th{
+  border-bottom: 1px solid #ddd;
+}
+table thead tr.table-sticky-header-row > th{
+  background-color: white;
+}
+
