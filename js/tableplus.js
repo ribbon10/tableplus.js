@@ -17,9 +17,10 @@
               table_body = table.find('> tbody'),
               table_body_top = table_body.position().top,
               table_body_bottom = table_body_top+table_body.height();
+              position_offset_correction = table.offset().top-table.position().top;
           // calc begin and end of table body
-          var begin = (window_top < table_body_top) ? table_body_top : window_top;
-          var end = (window_top+window_height < table_body_bottom) ? window_top+window_height : table_body_bottom;
+          var begin = (window_top < table_body_top+position_offset_correction) ? table_body_top+position_offset_correction : window_top;
+          var end = (window_top+window_height < table_body_bottom+position_offset_correction) ? window_top+window_height : table_body_bottom+position_offset_correction;
           // check if we see the table body
           if( begin > end ) { // we do not see the table body
             // hide scrollbar if table body is not seen
@@ -40,10 +41,10 @@
             var height = end-begin-correction_for_fixed_header;
             scrollbar_container
               .css( { height: height,
-                      top: begin+correction_for_fixed_header, 
+                      top: begin+correction_for_fixed_header-position_offset_correction, 
                       left: table_body.position().left+table.outerWidth() } );
             scrollbar_slider
-               .css( { top: (begin-table_body_top+correction_for_fixed_header)/(table_body_height)*(height), 
+               .css( { top: (begin-table_body_top+correction_for_fixed_header-position_offset_correction)/(table_body_height)*(height), 
                        height: (end-begin-correction_for_fixed_header)/(table_body_height)*(height) } );
           }
         }
@@ -102,11 +103,12 @@
                 header_top = header_rows_original.position().top,
                 header_height = header_height_accumulated, //header.height(),
                 footer_height = footer.height();
+                position_offset_correction = table.offset().top-table.position().top;
             // deside weather the table is out of scroll
-            if( window_top>table_top && window_top<table_top+table_height ) {
+            if( window_top>table_top+position_offset_correction && window_top<table_top+table_height+position_offset_correction ) {
               //console.log('adapt header');
               // check if the header should be fixed or if it should scrolle out
-              if( window_top<header_top+table_height-header_height-footer_height ) {
+              if( window_top<header_top+table_height-header_height-footer_height+position_offset_correction ) {
                 //console.log('fixed header -> we are insite the table');
                 header.css( { position: 'fixed',
                               top: 0 } )
@@ -120,7 +122,7 @@
               }
             }
             else {
-              //console.log('normal header -> we are above the header table');
+              //console.log('normal header -> we are above or below the table');
               header.css( { position: 'absolute', 
                             top: header_top } )
                     .removeClass('table-sticky-header-row-is-sticky');
