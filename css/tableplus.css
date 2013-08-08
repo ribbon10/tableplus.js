@@ -21,10 +21,10 @@ table thead tr.table-sticky-header-row {
 table thead tr.table-sticky-header-row-first th {
   border-top: 0;
 }
-table thead tr.table-sticky-header-row-first > th:first-child{
+table thead tr.table-sticky-header-row-first > th:first-child {
   border-top-left-radius: 4px;
 }
-table thead tr.table-sticky-header-row-first > th:last-child{
+table thead tr.table-sticky-header-row-first > th:last-child {
   border-top-right-radius: 4px;
 }
 table thead tr.table-sticky-header-row-is-sticky > th:first-child {
@@ -33,10 +33,10 @@ table thead tr.table-sticky-header-row-is-sticky > th:first-child {
 table thead tr.table-sticky-header-row-is-sticky > th:last-child {
   border-top-right-radius: 0;
 }
-table thead tr.table-sticky-header-row:last-child > th{
+table thead tr.table-sticky-header-row:last-child > th {
   border-bottom: 1px solid #ddd;
 }
-table thead tr.table-sticky-header-row > th{
+table thead tr.table-sticky-header-row > th {
   background-color: white;
 }
 
