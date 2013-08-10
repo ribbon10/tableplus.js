@@ -69,19 +69,19 @@
         var header = table.find('thead');
         var footer = table.find('> tfoot');
         // select all table rows
-        var header_rows = header.find('> tr')
+        var header_rows_original = header.find('> tr');
         // clone all table rows
-        var header_rows_original = header_rows.clone()
+        var header_rows = header_rows_original.clone(true, true);
+        // insert cloned rows so that they get correct dymensions
+        header.append( header_rows );
         // adapt height of rows
         header_rows.height( function(index, height){
-          return height;
+          return header_rows_original.eq(index).height();
         });
         // set width of every column
         header_rows.find('> th').width( function(index, width){
           return width;
         });
-        // insert cloned rows so that they get corrrect dynmensions
-        header.prepend( header_rows_original );
         // add special class to rows
         header_rows.addClass('table-sticky-header-row');
         // special class for first sticky header row
