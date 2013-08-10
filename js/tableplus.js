@@ -103,15 +103,16 @@
                 header_top = header_rows_original.position().top,
                 header_height = header_height_accumulated, //header.height(),
                 footer_height = footer.height();
+                top_navbar_height = 0;
                 position_offset_correction = table.offset().top-table.position().top;
             // deside weather the table is out of scroll
-            if( window_top>table_top+position_offset_correction && window_top<table_top+table_height+position_offset_correction ) {
+            if( window_top>table_top+position_offset_correction-top_navbar_height && window_top<table_top+table_height+position_offset_correction-top_navbar_height ) {
               //console.log('adapt header');
               // check if the header should be fixed or if it should scrolle out
-              if( window_top<header_top+table_height-header_height-footer_height+position_offset_correction ) {
+              if( window_top<header_top+table_height-header_height-footer_height+position_offset_correction-top_navbar_height ) {
                 //console.log('fixed header -> we are insite the table');
                 header.css( { position: 'fixed',
-                              top: 0 } )
+                              top: top_navbar_height } )
                       .addClass('table-sticky-header-row-is-sticky');
               }
               else {
