@@ -86,8 +86,6 @@
         header_rows.addClass('table-sticky-header-row');
         // special class for first sticky header row
         header_rows.eq(0).addClass('table-sticky-header-row-first');
-        // TODO remove these old row class
-        header_rows_original.addClass('table-sticky-header-row-original');
         // adapt margin-top of row -> this is necessary for mulitple header rows
         var header_height_accumulated = 0;
         header_rows.each( function(index, row){
