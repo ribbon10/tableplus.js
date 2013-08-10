@@ -18,9 +18,11 @@
               table_body_top = table_body.position().top,
               table_body_bottom = table_body_top+table_body.height();
               position_offset_correction = table.offset().top-table.position().top;
+              top_navbar_height = 0;
+              bottom_navbar_height = 0;
           // calc begin and end of table body
           var begin = (window_top < table_body_top+position_offset_correction) ? table_body_top+position_offset_correction : window_top;
-          var end = (window_top+window_height < table_body_bottom+position_offset_correction) ? window_top+window_height : table_body_bottom+position_offset_correction;
+          var end = (window_top+window_height-bottom_navbar_height < table_body_bottom+position_offset_correction) ? window_top+window_height-bottom_navbar_height : table_body_bottom+position_offset_correction;
           // check if we see the table body
           if( begin > end ) { // we do not see the table body
             // hide scrollbar if table body is not seen
@@ -37,15 +39,18 @@
             var correction_for_fixed_header = 0;
             if( table.hasClass('table-sticky-header') )
               correction_for_fixed_header = (begin-window_top > table_header_height) ? 0 : table_header_height-(begin-window_top);
+            // do top navbar correction
+            var correction_for_top_navbar = (begin-window_top > table_header_height+top_navbar_height) ? 0 : table_header_height+top_navbar_height-(begin-window_top);
+            correction_for_top_navbar = correction_for_top_navbar>top_navbar_height ? top_navbar_height : correction_for_top_navbar;
             // change css of container and slider
-            var height = end-begin-correction_for_fixed_header;
+            var height = end-begin-correction_for_fixed_header-correction_for_top_navbar;
             scrollbar_container
               .css( { height: height,
-                      top: begin+correction_for_fixed_header-position_offset_correction, 
+                      top: begin+correction_for_fixed_header+correction_for_top_navbar-position_offset_correction, 
                       left: table_body.position().left+table.outerWidth() } );
             scrollbar_slider
-               .css( { top: (begin-table_body_top+correction_for_fixed_header-position_offset_correction)/(table_body_height)*(height), 
-                       height: (end-begin-correction_for_fixed_header)/(table_body_height)*(height) } );
+               .css( { top: (begin-table_body_top+correction_for_fixed_header+correction_for_top_navbar-position_offset_correction)/(table_body_height)*(height), 
+                       height: (end-begin-correction_for_fixed_header-correction_for_top_navbar)/(table_body_height)*(height) } );
           }
         }
 
