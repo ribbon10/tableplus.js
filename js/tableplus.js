@@ -236,7 +236,7 @@
         methods.sortable( $this );
       if ( $this.hasClass('table-sticky-header') )
         methods.sticky_header( $this );
-      if ( $this.hasClass('table-scollbar') )
+      if ( $this.hasClass('table-scrollbar') )
         methods.scrollbar( $this );
     });
   };
