@@ -7,12 +7,12 @@
     this.$element = $(element)
     this.options = $.extend({}, $.fn.tableplus.defaults, options);
 
-    if( this.options.sortable )
-      this.sortable( this.$element );
     if( this.options.sticky_header )
       this.sticky_header( this.$element );
     if( this.options.scrollbar )
       this.scrollbar( this.$element );
+    if( this.options.sortable )
+      this.sortable( this.$element );
   }
 
   Tableplus.prototype = {
