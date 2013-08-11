@@ -25,12 +25,9 @@
       // compose scollbar elements
       scrollbar_container.append(scrollbar_slider);
       table.after(scrollbar_container);
+      this.scrollbar_container = scrollbar_container;
       // preserve options
       var options = this.options;
-
-      var destrory = function(){
-        $.remove(scrollbar_container);
-      }
 
       var update_table_scrollbars = function(){
         // get relevant values
@@ -87,6 +84,9 @@
         update_table_scrollbars();
       });
     }
+  , scrollbar_destroy : function(){
+        this.scrollbar_container.remove();
+      }
   , sticky_header : function( table ){
       var header = table.find('thead');
       var footer = table.find('> tfoot');
@@ -94,6 +94,7 @@
       var header_rows_original = header.find('> tr');
       // clone all table rows
       var header_rows = header_rows_original.clone(true, true);
+      this.header_rows = header_rows;
       // insert cloned rows so that they get correct dymensions
       header.append( header_rows );
       // adapt height of rows
@@ -118,10 +119,6 @@
       });
       // preserve options
       var options = this.options;
-
-      var destroy = function(){
-        $.remove(header_rows);
-      }
 
       // function for updating position of header
       var update_fixed_table_header = function(){
@@ -175,6 +172,9 @@
         update_fixed_table_header();
       });
     }
+  , sticky_header_destroy : function(){
+        this.header_rows.remove();
+      }
   , sortable : function( table ){
       var columns = table.find('thead > tr > th');
       var previous_sorted_column = -1;
@@ -255,6 +255,10 @@
           return false;
         });
       });
+    }
+  , destroy : function(){
+      this.sticky_header_destroy();
+      this.scrollbar_destroy();
     }
   }
 
