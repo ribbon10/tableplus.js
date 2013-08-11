@@ -1,5 +1,7 @@
 (function( $ ) {
-  $.fn.tableplus = function() {
+  $.fn.tableplus = function(options) {
+
+    var options = $.extend({}, $.fn.tableplus.defaults, options);
 
   	var methods = {
       scrollbar : function( table ){
@@ -18,8 +20,8 @@
               table_body_top = table_body.position().top,
               table_body_bottom = table_body_top+table_body.height();
               position_offset_correction = table.offset().top-table.position().top;
-              top_navbar_height = 0;
-              bottom_navbar_height = 0;
+              top_navbar_height = options.navbar_top_height;
+              bottom_navbar_height = options.navbar_bottom_height;
           // correct window top and height width navbar height
           window_top = window_top+top_navbar_height;
           window_height = window_height-top_navbar_height-bottom_navbar_height;
@@ -106,7 +108,7 @@
                 header_top = header_rows_original.position().top,
                 header_height = header_height_accumulated, //header.height(),
                 footer_height = footer.height();
-                top_navbar_height = 0;
+                top_navbar_height = options.navbar_top_height;
                 position_offset_correction = table.offset().top-table.position().top;
             // correction of window top for navbar
             window_top = window_top+top_navbar_height;
@@ -240,6 +242,11 @@
         methods.scrollbar( $this );
     });
   };
+
+  $.fn.tableplus.defaults = {
+    navbar_top_height: 0,
+    navbar_bottom_height: 0
+  }
 
   $(window).on('load', function () {
     $('table').tableplus();
