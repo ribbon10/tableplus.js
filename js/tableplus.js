@@ -200,14 +200,14 @@
           // hide all header icons
           columns.find('> a > i.table-sort-icon').css('visibility', 'hidden');
           // show header icon of this column
-          columns.eq(column_index).find('> a > i.table-sort-icon').css('visibility', 'visible');
+          $(this).find('> i.table-sort-icon').css('visibility', 'visible');
           // set correct icon
           if( sort_order_asc )
-            link.find('> i.table-sort-icon')
+            $(this).find('> i.table-sort-icon')
               .removeClass('icon-chevron-down')
               .addClass('icon-chevron-up')
           else
-            link.find('> i.table-sort-icon')
+            $(this).find('> i.table-sort-icon')
               .addClass('icon-chevron-down')
               .removeClass('icon-chevron-up')
           // get table body rows
