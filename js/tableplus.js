@@ -259,6 +259,7 @@
   , destroy : function(){
       this.sticky_header_destroy();
       this.scrollbar_destroy();
+      this.$element.removeData('tableplus');
     }
   }
 
