@@ -101,6 +101,10 @@
       header_rows.height( function(index, height){
         return header_rows_original.eq(index).height();
       });
+      // adapt width of rows
+      header_rows.width( function(index, width){
+        return header_rows_original.eq(index).width();
+      });
       // set width of every column
       header_rows.find('> th').width( function(index, width){
         return width;
