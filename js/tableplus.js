@@ -155,7 +155,7 @@
               //console.log('absolute header -> we do not see the body any more and are scrolling out. perhaps with the footer');
               header.css( { position: 'absolute',
                             top: header_top+table_height-header_height-footer_height,
-                            left: table.offset().left-window.scrollX } )
+                            left: 0 } )
                     .removeClass('table-sticky-header-row-is-sticky');
             }
           }
