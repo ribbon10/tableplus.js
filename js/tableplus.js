@@ -147,20 +147,23 @@
             if( window_top<header_top+table_height-header_height-footer_height+position_offset_correction ) {
               //console.log('fixed header -> we are insite the table');
               header.css( { position: 'fixed',
-                            top: top_navbar_height } )
+                            top: top_navbar_height,
+                            left: table.offset().left-window.scrollX } )
                     .addClass('table-sticky-header-row-is-sticky');
             }
             else {
               //console.log('absolute header -> we do not see the body any more and are scrolling out. perhaps with the footer');
               header.css( { position: 'absolute',
-                            top: header_top+table_height-header_height-footer_height } )
+                            top: header_top+table_height-header_height-footer_height,
+                            left: table.offset().left-window.scrollX } )
                     .removeClass('table-sticky-header-row-is-sticky');
             }
           }
           else {
             //console.log('normal header -> we are above or below the table');
             header.css( { position: 'absolute', 
-                          top: header_top } )
+                          top: header_top,
+                          left: 0 } )
                   .removeClass('table-sticky-header-row-is-sticky');
           }
         });
