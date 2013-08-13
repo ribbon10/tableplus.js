@@ -98,35 +98,35 @@
       this.header_rows = header_rows;
       // insert cloned rows so that they get correct dymensions
       header.append( header_rows );
-      // adapt height of rows
-      header_rows.height( function(index, height){
-        return header_rows_original.eq(index).height();
-      });
-      // adapt width of rows
-      header_rows.width( function(index, width){
-        return header_rows_original.eq(index).width();
-      });
-      // set width of every column
-      header_rows.find('> th').width( function(index, width){
-        return width;
-      });
       // add special class to rows
       header_rows.addClass('table-sticky-header-row');
       // special class for first sticky header row
       header_rows.eq(0).addClass('table-sticky-header-row-first');
-      // adapt margin-top of row -> this is necessary for mulitple header rows
-      var header_height_accumulated = 0;
-      header_rows.each( function(index, row){
-        row = $(row);
-        row_height = row.outerHeight();
-        $(row).css('margin-top', header_height_accumulated);
-        header_height_accumulated += row_height;
-      });
       // preserve options
       var options = this.options;
 
       // function for updating position of header
       var update_fixed_table_header = function(){
+        // adapt height of rows
+        header_rows.height( function(index, height){
+          return header_rows_original.eq(index).height();
+        });
+        // adapt width of rows
+        header_rows.width( function(index, width){
+          return header_rows_original.eq(index).width();
+        });
+        // set width of every column
+        header_rows.find('> th').width( function(index, width){
+          return header_rows_original.find('> th').eq(index).width();
+        });
+        // adapt margin-top of row -> this is necessary for mulitple header rows
+        var header_height_accumulated = 0;
+        header_rows.each( function(index, row){
+          row = $(row);
+          row_height = row.outerHeight();
+          $(row).css('margin-top', header_height_accumulated);
+          header_height_accumulated += row_height;
+        });
         header_rows.each(function(index, header){
           var header = $(header);
           // read relevant values
