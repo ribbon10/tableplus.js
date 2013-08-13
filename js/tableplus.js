@@ -85,9 +85,6 @@
         update_table_scrollbars();
       });
     }
-  , scrollbar_destroy : function(){
-        this.scrollbar_container.remove();
-      }
   , sticky_header : function( table ){
       var header = table.find('thead');
       var footer = table.find('> tfoot');
@@ -180,9 +177,6 @@
         update_fixed_table_header();
       });
     }
-  , sticky_header_destroy : function(){
-        this.header_rows.remove();
-      }
   , sortable : function( table ){
       var columns = table.find('thead > tr > th');
       var previous_sorted_column = -1;
@@ -263,11 +257,6 @@
           return false;
         });
       });
-    }
-  , destroy : function(){
-      this.sticky_header_destroy();
-      this.scrollbar_destroy();
-      this.$element.removeData('tableplus');
     }
   }
 
