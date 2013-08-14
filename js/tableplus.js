@@ -4,180 +4,169 @@
   * ================================= */
 
   var Tableplus = function (element, options) {
-    this.$element = $(element)
+    this.$element = $(element);
     this.options = $.extend({}, $.fn.tableplus.defaults, options);
 
     // sortable first because it can change the header width
     if( this.options.sortable )
-      this.sortable( this.$element );
+      this.sortable();
     if( this.options.sticky_header )
-      this.sticky_header( this.$element );
+      this.sticky_header();
     if( this.options.scrollbar )
-      this.scrollbar( this.$element );
+      this.scrollbar();
   }
 
   Tableplus.prototype = {
     constructor: Tableplus
 
-   , scrollbar: function( table ){
+   , scrollbar: function(){
       // create scrollbar elements
-      var scrollbar_container = $('<div class="table_scollbar_container"></div>'),
-          scrollbar_slider = $('<div class="table_scrollbar_slider"></div>');
+      this.scrollbar_container = $('<div class="table_scollbar_container"></div>'),
+      this.scrollbar_slider = $('<div class="table_scrollbar_slider"></div>');
       // compose scollbar elements
-      scrollbar_container.append(scrollbar_slider);
-      table.after(scrollbar_container);
-      this.scrollbar_container = scrollbar_container;
-      // preserve options
-      var options = this.options;
-
-      var update_table_scrollbars = function(){
-        // get relevant values
-        var window_top = window.scrollY,
-            window_height = $(window).height(),
-            table_body = table.find('> tbody'),
-            table_body_top = table_body.position().top,
-            table_body_bottom = table_body_top+table_body.height();
-            position_offset_correction = table.offset().top-table.position().top;
-            top_navbar_height = options.navbar_top_height;
-            bottom_navbar_height = options.navbar_bottom_height;
-        // correct window top and height width navbar height
-        window_top = window_top+top_navbar_height;
-        window_height = window_height-top_navbar_height-bottom_navbar_height;
-        // calc begin and end of table body
-        var begin = (window_top < table_body_top+position_offset_correction) ? table_body_top+position_offset_correction : window_top;
-        var end = (window_top+window_height < table_body_bottom+position_offset_correction) ? window_top+window_height : table_body_bottom+position_offset_correction;
-        // check if we see the table body
-        if( begin > end ) { // we do not see the table body
-          // hide scrollbar if table body is not seen
-          scrollbar_container.css({visibility: 'hidden'});
-        }
-        else { // we see the table body
-          // show scrollbar if table body is seen
-          scrollbar_container.css({visibility: 'visible'});
-          // get relevant values
-          var table_header = table.find('thead'),
-              table_header_height = table_header.height(),
-              table_body_height = table_body.outerHeight();
-          // do fixed table header correction only if fixed header class is applied to table
-          var correction_for_fixed_header = 0;
-          if( options.sticky_header )
-            correction_for_fixed_header = (begin-window_top > table_header_height) ? 0 : table_header_height-(begin-window_top);
-          // change css of container and slider
-          var height = end-begin-correction_for_fixed_header;
-          scrollbar_container
-            .css( { height: height,
-                    top: begin+correction_for_fixed_header-position_offset_correction, 
-                    left: table_body.position().left+table.outerWidth() } );
-          scrollbar_slider
-             .css( { top: (begin-table_body_top+correction_for_fixed_header-position_offset_correction)/(table_body_height)*(height), 
-                     height: (end-begin-correction_for_fixed_header)/(table_body_height)*(height) } );
-        }
-      }
+      this.scrollbar_container.append(this.scrollbar_slider);
+      this.$element.after(this.scrollbar_container);
 
       // update initialy
-      update_table_scrollbars();
+      this.update_table_scrollbars();
       // hook scrolling
-      $(window).scroll( function(eventObject){
-        update_table_scrollbars();
-      });
+      $(window).scroll( $.proxy( this.update_table_scrollbars, this) );
       // hook resize
-      $(window).resize( function(eventObject){
-        update_table_scrollbars();
-      });
+      $(window).resize( $.proxy( this.update_table_scrollbars, this) );
     }
-  , sticky_header : function( table ){
-      var header = table.find('thead');
-      var footer = table.find('> tfoot');
-      // select all table rows
-      var header_rows_original = header.find('> tr');
-      // clone all table rows
-      var header_rows = header_rows_original.clone(true, true);
-      this.header_rows = header_rows;
-      // insert cloned rows so that they get correct dymensions
-      header.append( header_rows );
-      // add special class to rows
-      header_rows.addClass('table-sticky-header-row');
-      // special class for first sticky header row
-      header_rows.eq(0).addClass('table-sticky-header-row-first');
-      // preserve options
+  , update_table_scrollbars : function(){
       var options = this.options;
 
-      // function for updating position of header
-      var update_fixed_table_header = function(){
-        // adapt height of rows
-        header_rows.height( function(index, height){
-          return header_rows_original.eq(index).height();
-        });
-        // adapt width of rows
-        header_rows.width( function(index, width){
-          return header_rows_original.eq(index).width();
-        });
-        // set width of every column
-        header_rows.find('> th').width( function(index, width){
-          return header_rows_original.find('> th').eq(index).width();
-        });
-        // adapt margin-top of row -> this is necessary for mulitple header rows
-        var header_height_accumulated = 0;
-        header_rows.each( function(index, row){
-          row = $(row);
-          row_height = row.outerHeight();
-          $(row).css('margin-top', header_height_accumulated);
-          header_height_accumulated += row_height;
-        });
-        header_rows.each(function(index, header){
-          var header = $(header);
-          // read relevant values
-          var window_top = window.scrollY,
-              table_top = table.position().top,
-              table_height = table.height(),
-              header_top = header_rows_original.position().top,
-              header_height = header_height_accumulated, //header.height(),
-              footer_height = footer.height();
-              top_navbar_height = options.navbar_top_height;
-              position_offset_correction = table.offset().top-table.position().top;
-          // correction of window top for navbar
-          window_top = window_top+top_navbar_height;
-          // deside weather the table is out of scroll
-          if( window_top>table_top+position_offset_correction && window_top<table_top+table_height+position_offset_correction ) {
-            //console.log('adapt header');
-            // check if the header should be fixed or if it should scrolle out
-            if( window_top<header_top+table_height-header_height-footer_height+position_offset_correction ) {
-              //console.log('fixed header -> we are insite the table');
-              header.css( { position: 'fixed',
-                            top: top_navbar_height,
-                            left: table.offset().left-window.scrollX } )
-                    .addClass('table-sticky-header-row-is-sticky');
-            }
-            else {
-              //console.log('absolute header -> we do not see the body any more and are scrolling out. perhaps with the footer');
-              header.css( { position: 'absolute',
-                            top: header_top+table_height-header_height-footer_height,
-                            left: 0 } )
-                    .removeClass('table-sticky-header-row-is-sticky');
-            }
+      // get relevant values
+      var window_top = window.scrollY,
+          window_height = $(window).height(),
+          table_body = this.$element.find('> tbody'),
+          table_body_top = table_body.position().top,
+          table_body_bottom = table_body_top+table_body.height();
+          position_offset_correction = this.$element.offset().top-this.$element.position().top;
+          top_navbar_height = options.navbar_top_height;
+          bottom_navbar_height = options.navbar_bottom_height;
+      // correct window top and height width navbar height
+      window_top = window_top+top_navbar_height;
+      window_height = window_height-top_navbar_height-bottom_navbar_height;
+      // calc begin and end of table body
+      var begin = (window_top < table_body_top+position_offset_correction) ? table_body_top+position_offset_correction : window_top;
+      var end = (window_top+window_height < table_body_bottom+position_offset_correction) ? window_top+window_height : table_body_bottom+position_offset_correction;
+      // check if we see the table body
+      if( begin > end ) { // we do not see the table body
+        // hide scrollbar if table body is not seen
+        this.scrollbar_container.css({visibility: 'hidden'});
+      }
+      else { // we see the table body
+        // show scrollbar if table body is seen
+        this.scrollbar_container.css({visibility: 'visible'});
+        // get relevant values
+        var table_header = this.$element.find('thead'),
+            table_header_height = table_header.height(),
+            table_body_height = table_body.outerHeight();
+        // do fixed table header correction only if fixed header class is applied to table
+        var correction_for_fixed_header = 0;
+        if( options.sticky_header )
+          correction_for_fixed_header = (begin-window_top > table_header_height) ? 0 : table_header_height-(begin-window_top);
+        // change css of container and slider
+        var height = end-begin-correction_for_fixed_header;
+        this.scrollbar_container
+          .css( { height: height,
+                  top: begin+correction_for_fixed_header-position_offset_correction, 
+                  left: table_body.position().left+this.$element.outerWidth() } );
+        this.scrollbar_slider
+           .css( { top: (begin-table_body_top+correction_for_fixed_header-position_offset_correction)/(table_body_height)*(height), 
+                   height: (end-begin-correction_for_fixed_header)/(table_body_height)*(height) } );
+      }
+    }
+  , sticky_header : function(){
+      var header = this.$element.find('thead');
+      // select all table rows
+      this.header_rows_original = header.find('> tr');
+      // clone all table rows
+      this.header_rows = this.header_rows_original.clone(true, true);
+      // insert cloned rows so that they get correct dymensions
+      header.append( this.header_rows );
+      // add special class to rows
+      this.header_rows.addClass('table-sticky-header-row');
+      // special class for first sticky header row
+      this.header_rows.eq(0).addClass('table-sticky-header-row-first');
+
+      // update initialy
+      this.update_fixed_table_header();
+      // hook scrolling
+      $(window).scroll( $.proxy( this.update_fixed_table_header, this) );
+      // hook resize
+      $(window).resize( $.proxy( this.update_fixed_table_header, this) );
+    }
+  // function for updating position of header
+  , update_fixed_table_header : function(){
+      var originals = this.header_rows_original;
+      var table = this.$element;
+      var options = this.options;
+
+      // adapt height of rows
+      this.header_rows.height( function(index, height){
+        return originals.eq(index).height();
+      });
+      // adapt width of rows
+      this.header_rows.width( function(index, width){
+        return originals.eq(index).width();
+      });
+      // set width of every column
+      this.header_rows.find('> th').width( function(index, width){
+        return originals.find('> th').eq(index).width();
+      });
+      // adapt margin-top of row -> this is necessary for mulitple header rows
+      var header_height_accumulated = 0;
+      this.header_rows.each( function(index, row){
+        row = $(row);
+        row_height = row.outerHeight();
+        $(row).css('margin-top', header_height_accumulated);
+        header_height_accumulated += row_height;
+      });      this.header_rows.each(function(index, header_row){
+        var header_row = $(header_row);
+        // read relevant values
+        var window_top = window.scrollY,
+            table_top = table.position().top,
+            table_height = table.height(),
+            header_top = originals.position().top,
+            header_height = header_height_accumulated,
+            footer_height = table.find('> tfoot').height();
+            top_navbar_height = options.navbar_top_height;
+            position_offset_correction = table.offset().top-table.position().top;
+        // correction of window top for navbar
+        window_top = window_top+top_navbar_height;
+        // deside weather the table is out of scroll
+        if( window_top>table_top+position_offset_correction && window_top<table_top+table_height+position_offset_correction ) {
+          //console.log('adapt header');
+          // check if the header should be fixed or if it should scrolle out
+          if( window_top<header_top+table_height-header_height-footer_height+position_offset_correction ) {
+            //console.log('fixed header -> we are insite the table');
+            header_row.css( { position: 'fixed',
+                              top: top_navbar_height,
+                              left: table.offset().left-window.scrollX } )
+                      .addClass('table-sticky-header-row-is-sticky');
           }
           else {
-            //console.log('normal header -> we are above or below the table');
-            header.css( { position: 'absolute', 
-                          top: header_top,
-                          left: 0 } )
-                  .removeClass('table-sticky-header-row-is-sticky');
+            //console.log('absolute header -> we do not see the body any more and are scrolling out. perhaps with the footer');
+            header_row.css( { position: 'absolute',
+                              top: header_top+table_height-header_height-footer_height,
+                              left: 0 } )
+                      .removeClass('table-sticky-header-row-is-sticky');
           }
-        });
-      }
-
-      // update initialy
-      update_fixed_table_header();
-      // hook scrolling
-      $(window).scroll( function(eventObject){
-        update_fixed_table_header();
+        }
+        else {
+          //console.log('normal header -> we are above or below the table');
+          header_row.css( { position: 'absolute', 
+                            top: header_top,
+                            left: 0 } )
+                   .removeClass('table-sticky-header-row-is-sticky');
+        }
       });
-      // hook resize
-      $(window).resize( function(eventObject){
-        update_fixed_table_header();
-      });
-    }
-  , sortable : function( table ){
+    } 
+  , sortable : function( ){
+      var table = this.$element;
       var columns = table.find('thead > tr > th');
       var previous_sorted_column = -1;
       var sort_order_asc = true;
