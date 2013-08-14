@@ -200,7 +200,7 @@
           // remember column we have sorted
           previous_sorted_column = column_index;
           // hide all header icons
-          columns.find('> a > i.table-sort-icon').css('visibility', 'hidden');
+          table.find('thead > tr > th > a > i.table-sort-icon').css('visibility', 'hidden');
           // show header icon of this column
           $(this).find('> i.table-sort-icon').css('visibility', 'visible');
           // set correct icon
