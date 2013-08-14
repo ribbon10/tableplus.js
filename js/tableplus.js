@@ -80,6 +80,17 @@
       }
     }
   , sticky_header : function(){
+      // create headers
+      this.sticky_header_create_headers();
+
+      // update initialy
+      this.update_fixed_table_header();
+      // hook scrolling
+      $(window).scroll( $.proxy( this.update_fixed_table_header, this) );
+      // hook resize
+      $(window).resize( $.proxy( this.update_fixed_table_header, this) );
+    }
+  , sticky_header_create_headers : function(){
       var header = this.$element.find('thead');
       // select all table rows
       this.header_rows_original = header.find('> tr');
@@ -90,15 +101,22 @@
       // add special class to rows
       this.header_rows.addClass('table-sticky-header-row');
       // special class for first sticky header row
-      this.header_rows.eq(0).addClass('table-sticky-header-row-first');
-
-      // update initialy
-      this.update_fixed_table_header();
-      // hook scrolling
-      $(window).scroll( $.proxy( this.update_fixed_table_header, this) );
-      // hook resize
-      $(window).resize( $.proxy( this.update_fixed_table_header, this) );
+      this.header_rows.eq(0).addClass('table-sticky-header-row-first');    
+  }
+  // be sure that all headers are still present. if not, create them again.
+  , fixed_header_repair : function(){
+    var _this = this;
+    this.header_rows.each( function(){
+      if( !$.contains(document.body, this) ){
+        _this.header_rows.remove();
+        _this.header_rows = undefined;
+        return false;
+      }
+    });
+    if( undefined == this.header_rows ){
+      this.sticky_header_create_headers();
     }
+  }
   // function for updating position of header
   , update_fixed_table_header : function(){
       var originals = this.header_rows_original;
