@@ -10,7 +10,7 @@ tableplus is a jQuery plugin for bootstrap offering 2 fancy features which are u
 At the moment this plugin is in pre-alpha stage and is only a proof of concept working on latest chrome and firefox using bootstrap 2.3.2. Lets wait and see if it is leaving this stage one time ;-)
 
 ## Screenshot
-![screenshot](todo:screenshot.png)
+![screenshot](https://raw.github.com/ribbon10/tableplus/master/doc/screenshot.png "Screenshot")
 
 ## Example
 For an interactive example have a look at the [demo page](http://htmlpreview.github.io/?https://github.com/ribbon10/tableplus/master/doc/index.html).
