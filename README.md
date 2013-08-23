@@ -13,7 +13,7 @@ At the moment this plugin is in pre-alpha stage and is only a proof of concept w
 ![screenshot](https://raw.github.com/ribbon10/tableplus/master/doc/screenshot.png "Screenshot")
 
 ## Example
-For an interactive example have a look at the [demo page](http://htmlpreview.github.io/?https://github.com/ribbon10/tableplus/master/doc/demo.html).
+For an interactive example have a look at the [demo page](http://rawgithub.com/ribbon10/tableplus/master/doc/demo.html).
 
 ## Getting Started
 Download [tabeplus](https://github.com/ribbon10/tableplus/archive/master.zip) from github, unzip to your project and load JavaScript & CSS file on your site.
