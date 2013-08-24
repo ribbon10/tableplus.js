@@ -10,13 +10,13 @@ tableplus is a jQuery plugin for Bootstrap offering 2 fancy features which are u
 At the moment this plugin is in pre-alpha stage and is only a proof of concept working on latest chrome and firefox using Bootstrap 2.3.2. Lets wait and see if it is leaving this stage one time ;-)
 
 ## Screenshot
-![screenshot](https://raw.github.com/ribbon10/tableplus/master/doc/screenshot.png "Screenshot")
+![screenshot](https://raw.github.com/ribbon10/tableplus.js/master/doc/screenshot.png "Screenshot")
 
 ## Example
-For an interactive example have a look at the [demo page](http://rawgithub.com/ribbon10/tableplus/master/doc/demo.html).
+For an interactive example have a look at the [demo page](http://rawgithub.com/ribbon10/tableplus.js/master/doc/demo.html).
 
 ## Getting Started
-Download [tabeplus](https://github.com/ribbon10/tableplus/archive/master.zip) from github, unzip to your project and load JavaScript & CSS file after jQuery & Bootstrap.
+Download [tabeplus](https://github.com/ribbon10/tableplus.js/archive/master.zip) from github, unzip to your project and load JavaScript & CSS file after jQuery & Bootstrap.
 ```html
 <head>
     ...
