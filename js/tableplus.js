@@ -319,9 +319,9 @@
       var $this = $(this);
       var options = $.extend({}, $.fn.tableplus.defaults);
       // sticky headers
-      options.sticky = ('true'==$this.data('sticky')) || $this.hasClass('table-sticky') || false
+      options.sticky = ('true'==$this.data('sticky')) || $this.hasClass('table-sticky') || false
       // scrollbars
-      options.scrollbar = ('true'==$this.data('scrollbar')) || $this.hasClass('table-scrollbar') || false
+      options.scrollbar = ('true'==$this.data('scrollbar')) || $this.hasClass('table-scrollbar') || false
       // check for offset.top
       options.offset.top = $this.data('offset-top') || $this.data('offset') || $.fn.tableplus.defaults.offset.top
       // check for offset.bottom
