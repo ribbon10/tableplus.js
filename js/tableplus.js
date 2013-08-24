@@ -315,28 +315,14 @@
     $("table[class~='table-sticky'],table[class~='table-scrollbar'],table[data-table-sticky='true'],table[data-table-scrollbar='true']").each(function(){
       var $this = $(this);
       var options = {};
-      // check for sticky headers
-      options['sticky_header'] = false;
-      var attr_val = $this.data('table-sticky');
-      if('true'==attr_val)
-        options['sticky_header'] = true;
-      if($this.hasClass('table-sticky'))
-        options['sticky_header'] = true;
-      // check for scrollbars
-      options['scrollbar'] = false;
-      var attr_val = $this.data('table-scrollbar');
-      if('true'==attr_val)
-        options['scrollbar'] = true;
-      if($this.hasClass('table-scrollbar'))
-        options['scrollbar'] = true;
+      // sticky headers
+      options['sticky_header'] = ('true'==$this.data('table-sticky')) || $this.hasClass('table-sticky')
+      // scrollbars
+      options['scrollbar'] = ('true'==$this.data('table-scrollbar')) || $this.hasClass('table-scrollbar')
       // check for offset-top
-      var attr_val = $this.data('offset-top');
-      if(attr_val)
-        options['navbar_top_height'] = attr_val;
+      options['navbar_top_height'] = $this.data('offset-top') || $.fn.tableplus.defaults.navbar_top_height
       // check for offset-bottom
-      var attr_val = $this.data('offset-bottom');
-      if(attr_val)
-        options['navbar_bottom_height'] = attr_val;
+      options['navbar_bottom_height'] = $this.data('offset-bottom') || $.fn.tableplus.defaults.navbar_bottom_height
       // call plugin
       $this.tableplus(options);
     });
