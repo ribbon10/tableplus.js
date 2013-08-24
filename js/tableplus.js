@@ -7,10 +7,14 @@
     this.$element = $(element);
     this.options = $.extend({}, $.fn.tableplus.defaults, options);
 
+    if( 'number' == typeof this.options.offset )
+      options.offset = {top: this.options.offset,
+                        bottom: this.options.offset }
+
     // sortable first because it can change the header width
     if( this.options.sortable )
       this.sortable();
-    if( this.options.sticky_header )
+    if( this.options.sticky )
       this.sticky_header();
     if( this.options.scrollbar )
       this.scrollbar();
@@ -44,8 +48,8 @@
           table_body_top = table_body.position().top,
           table_body_bottom = table_body_top+table_body.height();
           position_offset_correction = this.$element.offset().top-this.$element.position().top;
-          top_navbar_height = options.navbar_top_height;
-          bottom_navbar_height = options.navbar_bottom_height;
+          top_navbar_height = options.offset.top;
+          bottom_navbar_height = options.offset.bottom;
       // correct window top and height width navbar height
       window_top = window_top+top_navbar_height;
       window_height = window_height-top_navbar_height-bottom_navbar_height;
@@ -66,7 +70,7 @@
             table_body_height = table_body.outerHeight();
         // do fixed table header correction only if fixed header class is applied to table
         var correction_for_fixed_header = 0;
-        if( options.sticky_header )
+        if( options.sticky )
           correction_for_fixed_header = (begin-window_top > table_header_height) ? 0 : table_header_height-(begin-window_top);
         // change css of container and slider
         var height = end-begin-correction_for_fixed_header;
@@ -151,7 +155,7 @@
             header_top = originals.position().top,
             header_height = header_height_accumulated,
             footer_height = table.find('> tfoot').height();
-            top_navbar_height = options.navbar_top_height;
+            top_navbar_height = options.offset.top;
             position_offset_correction = table.offset().top-table.position().top;
         // correction of window top for navbar
         window_top = window_top+top_navbar_height;
@@ -290,9 +294,8 @@
   $.fn.tableplus.Constructor = Tableplus
 
   $.fn.tableplus.defaults = {
-    navbar_top_height: 0,
-    navbar_bottom_height: 0,
-    sticky_header: true,
+    offset: { top:0, bottom:0 },
+    sticky: true,
     sortable: false,
     scrollbar: true
   }
@@ -312,17 +315,17 @@
 
   $(window).on('load', function () {
     // find tables where the plugin should be applied
-    $("table[class~='table-sticky'],table[class~='table-scrollbar'],table[data-table-sticky='true'],table[data-table-scrollbar='true']").each(function(){
+    $("table[class~='table-sticky'],table[class~='table-scrollbar'],table[data-sticky='true'],table[data-scrollbar='true']").each(function(){
       var $this = $(this);
-      var options = {};
+      var options = $.extend({}, $.fn.tableplus.defaults);
       // sticky headers
-      options['sticky_header'] = ('true'==$this.data('table-sticky')) || $this.hasClass('table-sticky')
+      options.sticky = ('true'==$this.data('sticky')) || $this.hasClass('table-sticky') || false
       // scrollbars
-      options['scrollbar'] = ('true'==$this.data('table-scrollbar')) || $this.hasClass('table-scrollbar')
-      // check for offset-top
-      options['navbar_top_height'] = $this.data('offset-top') || $.fn.tableplus.defaults.navbar_top_height
-      // check for offset-bottom
-      options['navbar_bottom_height'] = $this.data('offset-bottom') || $.fn.tableplus.defaults.navbar_bottom_height
+      options.scrollbar = ('true'==$this.data('scrollbar')) || $this.hasClass('table-scrollbar') || false
+      // check for offset.top
+      options.offset.top = $this.data('offset-top') || $this.data('offset') || $.fn.tableplus.defaults.offset.top
+      // check for offset.bottom
+      options.offset.bottom = $this.data('offset-bottom') || $this.data('offset') || $.fn.tableplus.defaults.offset.bottom
       // call plugin
       $this.tableplus(options);
     });

@@ -42,7 +42,7 @@ Simple add **classes** to tables, as you would do with other [table styles](http
 ```
 or via **data attributes**:
 ```html
-<table class="table" data-table-sticky="true" data-table-scrollbar="false" >
+<table class="table" data-sticky="true" data-scrollbar="false" >
     <thead>
         <tr><th>Header 1</th></tr>
     </thead>
@@ -61,12 +61,11 @@ $('table').tableplus();
 ### Options
 Options can be passed via data attributes or JavaScript. For data attributes, append the option name to data-, as in data-offset-top=""
 
-Name            | type   | default | description
---------------- | ------ | ------- | -----------
-offset-top      | number | 0       | Pixels to offset from screen where sticky header is fixed to and where scrollbar begins. This is needed when a navbar is used that is [fixed to top](http://getbootstrap.com/components/#navbar-fixed-top). Tip: By default, the navbar is 50px high.
-offset-bottom   | number | 0       | Pixels at bottom of screen where sticky header is scrolling out and where scrollbar ends. This is needed when a navbar is used that is [fixed to bottom](http://getbootstrap.com/components/#navbar-fixed-bottom). Tip: By default, the navbar is 50px high.
-table-sticky    | string | true    | Header of table is getting sticky on scrolling.
-table-scrollbar | string | true    | Enables scrollbar rendering.
+Name      | type           | default | description
+--------- | -------------- | ------- | -----------
+offset    | object, number | 0       | Offset from screen *top* where sticky header is fixed to and where scrollbar begins. Or offset from *bottom* of screen where sticky header is scrolling out and where scrollbar ends. This is needed when a navbar is used that is [fixed to bottom](http://getbootstrap.com/components/#navbar-fixed-bottom) or [top](http://getbootstrap.com/components/#navbar-fixed-top). If a number is supplied, value is applied to top and bottom. Object structure is: delay: { show: 50, hide: 50 }. Tip: By default, top and bottom navbar is 50px high.
+sticky    | boolean        | true    | Header of table is getting sticky on scrolling.
+scrollbar | boolean        | true    | Enables scrollbar rendering.
 
 ### Methods
 #### .tableplus(options)
