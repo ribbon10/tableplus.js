@@ -2,12 +2,12 @@
 some fancy upgrades for html tables rendered with bootstrap.
 
 ## About
-tableplus is a jQuery plugin for bootstrap offering 2 fancy features which are usefull for long tables. long means: longer than screen size.
+tableplus is a jQuery plugin for Bootstrap offering 2 fancy features which are usefull for long tables. long means: longer than screen size.
 + First feature makes **table headers sticky** on scrolling. This means when you scroll over a table that is longer than your screen size the table headers will not scroll out. They are visible at the top screen until the table scrolls out.
 + Second feature is a **scrollbar** that indicates how much of a table is displayed on screen.
 
 **IMPORTANT**:
-At the moment this plugin is in pre-alpha stage and is only a proof of concept working on latest chrome and firefox using bootstrap 2.3.2. Lets wait and see if it is leaving this stage one time ;-)
+At the moment this plugin is in pre-alpha stage and is only a proof of concept working on latest chrome and firefox using Bootstrap 2.3.2. Lets wait and see if it is leaving this stage one time ;-)
 
 ## Screenshot
 ![screenshot](https://raw.github.com/ribbon10/tableplus/master/doc/screenshot.png "Screenshot")
@@ -16,10 +16,16 @@ At the moment this plugin is in pre-alpha stage and is only a proof of concept w
 For an interactive example have a look at the [demo page](http://rawgithub.com/ribbon10/tableplus/master/doc/demo.html).
 
 ## Getting Started
-Download [tabeplus](https://github.com/ribbon10/tableplus/archive/master.zip) from github, unzip to your project and load JavaScript & CSS file on your site.
+Download [tabeplus](https://github.com/ribbon10/tableplus/archive/master.zip) from github, unzip to your project and load JavaScript & CSS file after jQuery & Bootstrap.
 ```html
 <head>
     ...
+    <!-- Bootstrap and jQuery needed by tableplus -->
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    ...
+    <!-- tableplus -->
     <link href="tableplus/css/tableplus.css" rel="stylesheet">
     <script src="tableplus/js/tableplus.js"></script>
     ...
