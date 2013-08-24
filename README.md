@@ -63,9 +63,9 @@ Options can be passed via data attributes or JavaScript. For data attributes, ap
 
 Name      | type           | default | description
 --------- | -------------- | ------- | -----------
-offset    | object, number | 0       | Offset from screen *top* where sticky header is fixed to and where scrollbar begins. Or offset from *bottom* of screen where sticky header is scrolling out and where scrollbar ends. This is needed when a navbar is used that is [fixed to bottom](http://getbootstrap.com/components/#navbar-fixed-bottom) or [top](http://getbootstrap.com/components/#navbar-fixed-top). If a number is supplied, value is applied to top and bottom. Object structure is: delay: { show: 50, hide: 50 }. Tip: By default, top and bottom navbar is 50px high.
+offset    | object, number | 0       | <p>Offset from screen *top* where sticky header is fixed to and where scrollbar begins. Or offset from *bottom* of screen where sticky header is scrolling out and where scrollbar ends.<br />This is needed when a navbar is used that is [fixed to top](http://getbootstrap.com/components/#navbar-fixed-top) or [bottom](http://getbootstrap.com/components/#navbar-fixed-bottom).</p><p>If a number is supplied, the value is applied to top and bottom.<br />Object structure is: offset: { top: 50, bottom: 50 }.</p><p>Tip: By default, top and bottom navbar is 50px high.</p>
 sticky    | boolean        | true    | Header of table is getting sticky on scrolling.
-scrollbar | boolean        | true    | Enables scrollbar rendering.
+scrollbar | boolean        | true    | Scrollbar is rendered.
 
 ### Methods
 #### .tableplus(options)
