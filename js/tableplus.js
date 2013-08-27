@@ -42,7 +42,7 @@
       var options = this.options;
 
       // get relevant values
-      var window_top = window.scrollY,
+      var window_top = $(window).scrollTop(),
           window_height = $(window).height(),
           table_body = this.$element.find('> tbody'),
           table_body_top = table_body.position().top,
@@ -149,7 +149,7 @@
       });      this.header_rows.each(function(index, header_row){
         var header_row = $(header_row);
         // read relevant values
-        var window_top = window.scrollY,
+        var window_top = $(window).scrollTop(),
             table_top = table.position().top,
             table_height = table.height(),
             header_top = originals.position().top,
@@ -167,7 +167,7 @@
             //console.log('fixed header -> we are insite the table');
             header_row.css( { position: 'fixed',
                               top: top_navbar_height,
-                              left: table.offset().left-window.scrollX } )
+                              left: table.offset().left-$(window).scrollLeft() } )
                       .addClass('table-sticky-header-row-is-sticky');
           }
           else {
