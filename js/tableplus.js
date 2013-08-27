@@ -48,8 +48,8 @@
           table_body_top = table_body.position().top,
           table_body_bottom = table_body_top+table_body.height();
           position_offset_correction = this.$element.offset().top-this.$element.position().top;
-          top_navbar_height = options.offset.top;
-          bottom_navbar_height = options.offset.bottom;
+          top_navbar_height = (typeof options.offset.top == 'function' ? options.offset.top.call(this.$element) : options.offset.top);
+          bottom_navbar_height = (typeof options.offset.bottom == 'function' ? options.offset.bottom.call(this.$element) : options.offset.bottom);
       // correct window top and height width navbar height
       window_top = window_top+top_navbar_height;
       window_height = window_height-top_navbar_height-bottom_navbar_height;
@@ -155,7 +155,7 @@
             header_top = originals.position().top,
             header_height = header_height_accumulated,
             footer_height = table.find('> tfoot').height();
-            top_navbar_height = options.offset.top;
+            top_navbar_height = (typeof options.offset.top == 'function' ? options.offset.top.call(table) : options.offset.top);
             position_offset_correction = table.offset().top-table.position().top;
         // correction of window top for navbar
         window_top = window_top+top_navbar_height;
